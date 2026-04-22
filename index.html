@@ -3,9 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elegant Star Map & Mythology</title>
+    <title>The Celestial Chronicles</title>
     <!-- Elegant SVG Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='32' fill='%2302040a'/><path d='M32 6 Q32 32 6 32 Q32 32 32 58 Q32 32 58 32 Q32 32 32 6 Z' fill='%23eaddb5'/><circle cx='32' cy='32' r='4' fill='%23ffffff'/></svg>">
+    
+    <!-- Google Fonts for the "Ancient" Ptolemy Look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+
     <!-- Load Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
@@ -31,14 +37,18 @@
         }
 
         .landing-content {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 100px 40px;
+            padding: 80px 40px;
+        }
+
+        .hero-section {
             text-align: center;
+            margin-bottom: 80px;
         }
 
         .landing-content h1 {
-            font-size: 48px;
+            font-size: 52px;
             font-weight: normal;
             letter-spacing: 0.15em;
             color: #eaddb5;
@@ -52,7 +62,7 @@
             letter-spacing: 0.3em;
             color: #9bb0ff;
             text-transform: uppercase;
-            margin-bottom: 60px;
+            margin-bottom: 40px;
             display: block;
         }
 
@@ -60,71 +70,207 @@
             font-size: 18px;
             line-height: 2.0;
             color: rgba(220, 230, 255, 0.85);
-            margin-bottom: 30px;
-            text-align: left;
+            margin-bottom: 24px;
         }
 
-        .landing-content p.center { text-align: center; }
+        .hero-section p { text-align: center; }
 
-        .cta-container { margin-top: 60px; padding-bottom: 60px; }
+        /* --- Custom Section Styling --- */
+        h2.section-title {
+            font-size: 28px;
+            color: #eaddb5;
+            border-bottom: 1px solid rgba(234, 221, 181, 0.3);
+            padding-bottom: 10px;
+            margin: 60px 0 30px 0;
+            font-weight: normal;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* 2-Column Ptolemy Layout */
+        .ptolemy-container {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            background: rgba(234, 221, 181, 0.03);
+            border: 1px solid rgba(234, 221, 181, 0.15);
+            border-radius: 12px;
+            padding: 40px;
+            margin-top: 40px;
+        }
+
+        .ptolemy-text { flex: 1; }
+
+        .ptolemy-title {
+            font-family: 'Cinzel', serif;
+            font-size: 32px;
+            color: #eaddb5;
+            margin-bottom: 10px;
+        }
+
+        .ptolemy-dates {
+            font-family: -apple-system, sans-serif;
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            color: #9bb0ff;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .ptolemy-image {
+            width: 250px;
+            height: 350px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid rgba(234, 221, 181, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: #111; 
+        }
+
+        .fun-fact {
+            font-style: italic;
+            color: #9bb0ff !important;
+            font-size: 16px !important;
+            margin-top: 20px;
+            padding-left: 15px;
+            border-left: 2px solid #9bb0ff;
+        }
+
+        /* Gallery Grid */
+        .gods-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .god-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            padding: 40px 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            background-color: #0b1528; 
+            background-size: cover;
+            background-position: center;
+        }
+
+        .god-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(2,4,10,0.95) 0%, rgba(2,4,10,0.6) 100%);
+            z-index: 1;
+        }
+
+        .god-card-content { position: relative; z-index: 2; }
+
+        .god-card h3 {
+            font-size: 24px;
+            color: #eaddb5;
+            margin-bottom: 12px;
+            font-weight: normal;
+            font-family: 'Cinzel', serif;
+        }
+
+        .god-card p {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        .cta-container { 
+            text-align: center;
+            margin-top: 80px; 
+            padding-bottom: 20px; 
+        }
 
         #enter-app-btn {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(234, 221, 181, 0.4);
             color: #eaddb5;
-            padding: 16px 40px;
-            font-size: 16px;
+            padding: 18px 50px;
+            font-size: 18px;
             font-family: Georgia, serif;
             letter-spacing: 0.1em;
             cursor: pointer;
-            border-radius: 30px;
+            border-radius: 40px;
             transition: all 0.3s ease;
             backdrop-filter: blur(4px);
         }
 
         #enter-app-btn:hover {
             background: rgba(234, 221, 181, 0.15);
-            box-shadow: 0 0 20px rgba(234, 221, 181, 0.2);
+            box-shadow: 0 0 25px rgba(234, 221, 181, 0.25);
             transform: translateY(-2px);
         }
 
-        /* --- Credits Section --- */
+        /* --- Credits & Sources Section --- */
         .credits {
-            margin-top: 60px;
+            margin-top: 40px;
             padding-top: 30px;
+            padding-bottom: 40px;
             border-top: 1px solid rgba(144, 175, 255, 0.15);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            font-size: 11px;
+            font-size: 12px;
             color: rgba(144, 175, 255, 0.5);
             text-align: center;
             line-height: 1.8;
         }
 
-        .credits a {
-            color: #9bb0ff;
-            text-decoration: none;
-            transition: color 0.3s;
+        .credits a { color: #9bb0ff; text-decoration: none; transition: color 0.3s; cursor: pointer; }
+        .credits a:hover { color: #eaddb5; }
+        
+        .sources-btn-wrapper { margin-top: 15px; }
+        #open-sources-btn {
+            background: none; border: 1px solid rgba(155, 176, 255, 0.4);
+            color: #9bb0ff; padding: 6px 16px; border-radius: 20px;
+            font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+            cursor: pointer; transition: all 0.3s;
+        }
+        #open-sources-btn:hover { background: rgba(155, 176, 255, 0.1); color: #fff; }
+
+        /* --- APA Sources Modal --- */
+        #sources-backdrop {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden; transition: all 0.4s ease; z-index: 5000;
+        }
+        
+        #sources-backdrop.active { opacity: 1; visibility: visible; }
+
+        #sources-modal {
+            background: #0b1528; border: 1px solid rgba(234, 221, 181, 0.3);
+            border-radius: 12px; width: 700px; max-width: 90vw; max-height: 80vh;
+            display: flex; flex-direction: column; position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            transform: translateY(20px); transition: all 0.4s ease;
         }
 
-        .credits a:hover {
-            color: #eaddb5;
+        #sources-backdrop.active #sources-modal { transform: translateY(0); }
+
+        .sources-header { padding: 24px 30px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .sources-header h2 { font-family: 'Cinzel', serif; font-size: 24px; color: #eaddb5; font-weight: normal; margin-top: 0; margin-bottom: 0; }
+        
+        .sources-body { padding: 30px; overflow-y: auto; }
+        .apa-citation {
+            font-family: "Times New Roman", Times, serif; font-size: 15px; line-height: 1.6;
+            margin-bottom: 16px; padding-left: 36px; text-indent: -36px; /* APA Hanging Indent */
+            color: rgba(255,255,255,0.8);
         }
+        .apa-citation i { color: #eaddb5; }
 
         /* --- 3D APP STYLES --- */
-        #app-container {
-            position: absolute;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000000;
-        }
-
-        #sky-canvas { 
-            display: block; width: 100vw; height: 100vh; cursor: grab; 
-        }
+        #app-container { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; background: #000000; }
+        #sky-canvas { display: block; width: 100vw; height: 100vh; cursor: grab; }
         #sky-canvas:active { cursor: grabbing; }
 
-        #ui-overlay {
-            position: absolute; top: 40px; left: 40px; pointer-events: none; z-index: 10;
-        }
+        #ui-overlay { position: absolute; top: 40px; left: 40px; pointer-events: none; z-index: 10; }
         #ui-overlay h1 { font-size: 24px; font-weight: normal; letter-spacing: 0.1em; color: rgba(255, 255, 255, 0.9); }
         #ui-overlay p { font-size: 10px; font-family: -apple-system, sans-serif; letter-spacing: 0.25em; color: rgba(144, 175, 255, 0.6); margin-top: 10px; text-transform: uppercase; }
 
@@ -152,7 +298,7 @@
         /* --- Glassmorphism Modal --- */
         #modal-backdrop {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center;
+            background: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center;
             opacity: 0; visibility: hidden; transition: all 0.4s ease; z-index: 100;
         }
 
@@ -160,7 +306,7 @@
             position: relative; width: 560px; max-width: 95vw; max-height: 90vh;
             background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(24px) saturate(120%); -webkit-backdrop-filter: blur(24px) saturate(120%);
             border: 1px solid rgba(255, 255, 255, 0.08); border-top: 1px solid rgba(255, 255, 255, 0.2); border-left: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.8);
             display: flex; flex-direction: column; overflow: hidden;
             transform: translateY(20px) scale(0.95); opacity: 0; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -174,53 +320,30 @@
         }
         .close-btn:hover { color: #fff; }
 
-        #modal-header { 
-            padding: 30px 30px 20px; 
-        }
-        
-        #modal-header h2 { 
-            font-size: 32px; 
-            font-weight: normal; 
-            letter-spacing: 0.05em; 
-            margin-top: 0;
-            margin-bottom: 6px; 
-            color: #eaddb5; 
-        }
-        
-        #modal-header .abbr { 
-            font-size: 11px; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; 
-            letter-spacing: 0.28em; 
-            color: rgba(144, 175, 255, 0.6); 
-            text-transform: uppercase; 
-            display: block; 
-        }
+        #modal-header { padding: 30px 30px 20px; }
+        #modal-header h2 { font-size: 32px; font-weight: normal; letter-spacing: 0.05em; margin-top: 0; margin-bottom: 6px; color: #eaddb5; }
+        #modal-header .abbr { font-size: 11px; font-family: -apple-system, sans-serif; letter-spacing: 0.28em; color: rgba(144, 175, 255, 0.6); text-transform: uppercase; display: block; }
 
         #modal-image-container {
-            width: 100%; height: 350px;
-            background: #fff; 
-            border-top: 1px solid rgba(255,255,255,0.05);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            display: flex; justify-content: center; align-items: center;
-            overflow: hidden;
-            position: relative;
+            width: 100%; height: 350px; background: #fff; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative;
         }
         
-        #constellation-img { 
-            max-width: 100%; max-height: 100%; object-fit: contain; 
-        }
+        #constellation-img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-        #modal-scroll-area {
-            padding: 24px 30px 30px;
-            overflow-y: auto;
-            flex-grow: 1;
-        }
-
+        #modal-scroll-area { padding: 24px 30px 30px; overflow-y: auto; flex-grow: 1; }
         #modal-scroll-area p { font-size: 15px; line-height: 1.8; color: rgba(220, 230, 255, 0.9); margin-bottom: 16px;}
         
-        #modal-scroll-area::-webkit-scrollbar { width: 6px; }
-        #modal-scroll-area::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
-        #modal-scroll-area::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+        /* Custom scrollbars */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+        
+        @media (max-width: 768px) {
+            .ptolemy-container { flex-direction: column; text-align: center; }
+            .fun-fact { border-left: none; border-top: 2px solid #9bb0ff; padding-left: 0; padding-top: 15px; }
+            .gods-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -233,19 +356,66 @@
     <!-- --- LANDING PAGE --- -->
     <div id="landing-page">
         <div class="landing-content">
-            <h1>Tales of the Night Sky</h1>
-            <span class="subtitle">A Journey Through Mythology</span>
             
-            <p>Since the dawn of humanity, we have looked up at the stars and seen more than just points of light. We saw gods, heroes, monsters, and myths written across the vast canvas of the cosmos.</p>
-            
-            <p>The ancient Greeks, Babylonians, and cultures worldwide connected these stars, drawing imaginary lines to preserve their most sacred stories. These <strong>constellations</strong> served as calendars, navigational guides, and storybooks passed down through generations.</p>
-            
-            <p>From Orion the Hunter locked in eternal combat with Taurus the Bull, to the tragic tale of Andromeda, the sky is alive with drama and history. This interactive map preserves those ancient shapes, combining official astronomical data with the classic stories of old.</p>
+            <div class="hero-section">
+                <h1>Tales of the Night Sky</h1>
+                <span class="subtitle">A Journey Through the Sky</span>
+                
+                <p>Have you ever looked up at the night sky, and wondered what you’re looking at? To me, it is simply amazing to think that we are looking at the same sky that our ancestors did. So here, we will learn about the 88 constellations in the sky and the heroes, creatures and myths connecting them all.</p>
+                
+                <p>Constellations might look like nice patterns drawn across the sky, but actually they are not real groupings of stars. In fact, the stars in a constellation can be separated by vast, vast distances, often hundreds of thousands of lightyears. They only appear close together from our viewpoint on Earth as we cannot tell the difference in distance when we see them in the night sky. Regardless, for thousands of years, people from all over the world have connected these distant points of light into figures, turning the night sky into a world of imagination.</p>
 
-            <p class="center"><em>Click below to enter the celestial sphere, pan around the universe, and uncover the stories behind the stars.</em></p>
+                <p>You might wonder, why is it that today, in a world where myths are receding and being replaced by science, that we still use constellations? This is because constellations now help astronomers to map out the sky. In fact, in 1922, the International Astronomical Union formally defined 88 constellations, which mapped regions that covered the entire sky. 48 of these constellations are based in ancient Greek mythology while the rest are later European additions. Together, they divide the entire celestial sphere into separate regions.</p>
+            </div>
+
+            <h2 class="section-title">Origins & Navigation</h2>
+            <p>In a time before maps, compasses, or GPS, the night sky was the first navigational guide people could rely on. By watching the steady movement of constellations, our ancestors learned to navigate vast distances and track the seasons.</p>
+
+            <div class="ptolemy-container">
+                <div class="ptolemy-text">
+                    <h3 class="ptolemy-title">Claudius Ptolemy</h3>
+                    <span class="ptolemy-dates">C. 100-160/170s AD</span>
+                    <p>Claudius Ptolemy was a Greco-Roman mathematician, geographer and astronomer. He is best known for developing the geocentric model of the universe, with the Earth at its center, in his most famous work, the <em>Almagest</em>.</p>
+                    <p>Additionally, the <em>Almagest</em> featured a set of 48 classical star groupings which even now we use as constellations. However, his catalogue of stars only included the visible stars which could be seen in the northern hemisphere, meaning that around half of the stars in the night sky weren’t included.</p>
+                    <p class="fun-fact"><strong>Fun fact:</strong> Ptolemy claimed to make a series of observations at noon everyday, but modern scientists have consistently found that the observations were half an hour too early!</p>
+                </div>
+                <div class="img-container">
+                    <img src="images/ptolemy.jpg" alt="Portrait of Ptolemy" class="ptolemy-image" onerror="this.style.display='none'">
+                </div>
+            </div>
+
+            <h2 class="section-title">Figures of Greek Myth</h2>
+            <p>Before we explore the stars, here are some of the key figures from Greek mythology whose stories and creations are scattered across the heavens.</p>
+            
+            <div class="gods-grid">
+                <div class="god-card" style="background-image: url('images/zeus.jpg');">
+                    <div class="god-card-content">
+                        <h3>Zeus</h3>
+                        <p>Son of Cronus, Ruler of Mount Olympus, Father of Gods and Men, Zeus (or Jupiter/Jove according to the Romans) was the main deity that the ancient Greeks worshipped, and he placed many heroes and creatures into the skies.</p>
+                    </div>
+                </div>
+                <div class="god-card" style="background-image: url('images/hera.jpg');">
+                    <div class="god-card-content">
+                        <h3>Hera</h3>
+                        <p>Hera, or Juno, is the wife of Zeus. She is often portrayed in ancient texts as extremely jealous of her husband’s lovers and illegitimate children. Therefore, she often sent beasts into the sky, leaving her mark among the constellations.</p>
+                    </div>
+                </div>
+                <div class="god-card" style="background-image: url('images/heracles.jpg');">
+                    <div class="god-card-content">
+                        <h3>Heracles</h3>
+                        <p>Heracles the lion-hearted, the mightiest Greek hero, son of Zeus, after carrying out twelve impossible tasks (The twelve labours of Heracles), had his mortal half burned away and ascended mount Olympus to reach godhood.</p>
+                    </div>
+                </div>
+                <div class="god-card" style="background-image: url('images/poseidon.jpg');">
+                    <div class="god-card-content">
+                        <h3>Poseidon</h3>
+                        <p>Known as Neptune to the Romans, he is the god of the seas. He is therefore thought to be connected to the sky’s water constellations, including some sea creatures.</p>
+                    </div>
+                </div>
+            </div>
 
             <div class="cta-container">
-                <button id="enter-app-btn">Explore the Heavens</button>
+                <button id="enter-app-btn">Enter the Celestial Sphere</button>
             </div>
 
             <!-- Legal Credits and Acknowledgments -->
@@ -253,6 +423,50 @@
                 <p><strong>Acknowledgments & Credits</strong><br>
                 Official constellation charts provided by the <a href="https://www.iau.org/public/themes/constellations/" target="_blank">International Astronomical Union (IAU)</a> & Sky & Telescope (Roger Sinnott & Rick Fienberg) under CC BY 4.0.<br>
                 Constellation line data and Western sky culture illustrations by the <a href="https://github.com/Stellarium/stellarium-skycultures/tree/master/western" target="_blank">Stellarium team and Johan Meuris</a> under the Free Art License and CC BY-SA.</p>
+                <div class="sources-btn-wrapper">
+                    <button id="open-sources-btn">View References (APA 7)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- --- APA SOURCES MODAL --- -->
+    <div id="sources-backdrop">
+        <div id="sources-modal">
+            <button class="close-btn" id="close-sources-btn">&times;</button>
+            <div class="sources-header">
+                <h2>References</h2>
+            </div>
+            <div class="sources-body">
+                <div class="apa-citation">International Astronomical Union. (n.d.). <i>The Constellations</i>. Retrieved April 22, 2026, from <a href="https://iauarchive.eso.org/public/themes/constellations/" target="_blank">https://iauarchive.eso.org/public/themes/constellations/</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Andromeda (constellation)</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Andromeda_(constellation)" target="_blank">https://en.wikipedia.org/wiki/Andromeda_(constellation)</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Antlia</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Antlia" target="_blank">https://en.wikipedia.org/wiki/Antlia</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Apus</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Apus" target="_blank">https://en.wikipedia.org/wiki/Apus</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Caelum</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Caelum" target="_blank">https://en.wikipedia.org/wiki/Caelum</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Camelopardalis</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Camelopardalis" target="_blank">https://en.wikipedia.org/wiki/Camelopardalis</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Canes Venatici</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Canes_Venatici" target="_blank">https://en.wikipedia.org/wiki/Canes_Venatici</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Columba (constellation)</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Columba_(constellation)" target="_blank">https://en.wikipedia.org/wiki/Columba_(constellation)</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Crux</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Crux" target="_blank">https://en.wikipedia.org/wiki/Crux</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Dorado</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Dorado" target="_blank">https://en.wikipedia.org/wiki/Dorado</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Fornax</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Fornax" target="_blank">https://en.wikipedia.org/wiki/Fornax</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Fornax (mythology)</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Fornax_(mythology)" target="_blank">https://en.wikipedia.org/wiki/Fornax_(mythology)</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Grus (constellation)</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Grus_(constellation)" target="_blank">https://en.wikipedia.org/wiki/Grus_(constellation)</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Horologium (constellation)</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Horologium_(constellation)" target="_blank">https://en.wikipedia.org/wiki/Horologium_(constellation)</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Hydrus</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Hydrus" target="_blank">https://en.wikipedia.org/wiki/Hydrus</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Indus (constellation)</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Indus_(constellation)" target="_blank">https://en.wikipedia.org/wiki/Indus_(constellation)</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Lacerta</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Lacerta" target="_blank">https://en.wikipedia.org/wiki/Lacerta</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Leo Minor</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Leo_Minor" target="_blank">https://en.wikipedia.org/wiki/Leo_Minor</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Lynx (constellation)</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Lynx_(constellation)" target="_blank">https://en.wikipedia.org/wiki/Lynx_(constellation)</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Mensa (constellation)</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Mensa_(constellation)" target="_blank">https://en.wikipedia.org/wiki/Mensa_(constellation)</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Microscopium</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Microscopium" target="_blank">https://en.wikipedia.org/wiki/Microscopium</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Norma (constellation)</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Norma_(constellation)" target="_blank">https://en.wikipedia.org/wiki/Norma_(constellation)</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Octans</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Octans" target="_blank">https://en.wikipedia.org/wiki/Octans</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Pictor</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Pictor" target="_blank">https://en.wikipedia.org/wiki/Pictor</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Pyxis</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Pyxis" target="_blank">https://en.wikipedia.org/wiki/Pyxis</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Reticulum</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Reticulum" target="_blank">https://en.wikipedia.org/wiki/Reticulum</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Sculptor (constellation)</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Sculptor_(constellation)" target="_blank">https://en.wikipedia.org/wiki/Sculptor_(constellation)</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Sextans</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Sextans" target="_blank">https://en.wikipedia.org/wiki/Sextans</a></div>
+                <div class="apa-citation">Wikipedia contributors. (n.d.). <i>Telescopium</i>. In Wikipedia, The Free Encyclopedia. Retrieved April 22, 2026, from <a href="https://en.wikipedia.org/wiki/Telescopium" target="_blank">https://en.wikipedia.org/wiki/Telescopium</a></div>
             </div>
         </div>
     </div>
@@ -260,7 +474,7 @@
     <!-- --- MAIN 3D APP --- -->
     <div id="app-container">
         <div id="ui-overlay">
-            <h1>Celestial Sphere</h1>
+            <h1>The Celestial Chronicles</h1>
             <p>Click & Drag to explore</p>
         </div>
 
@@ -291,25 +505,119 @@
     </div>
 
     <script>
-        /* --- LANDING PAGE LOGIC --- */
+        /* --- LANDING PAGE & SOURCES LOGIC --- */
         document.getElementById('enter-app-btn').addEventListener('click', () => {
             const landing = document.getElementById('landing-page');
             landing.style.opacity = '0';
-            setTimeout(() => {
-                landing.style.visibility = 'hidden';
-            }, 1000);
+            setTimeout(() => { landing.style.visibility = 'hidden'; }, 1000);
         });
 
-        /* --- CONSTELLATION LORE DATABASE --- */
+        const sourcesBackdrop = document.getElementById('sources-backdrop');
+        document.getElementById('open-sources-btn').addEventListener('click', () => {
+            sourcesBackdrop.classList.add('active');
+        });
+        document.getElementById('close-sources-btn').addEventListener('click', () => {
+            sourcesBackdrop.classList.remove('active');
+        });
+        sourcesBackdrop.addEventListener('click', (e) => {
+            if (e.target === sourcesBackdrop) sourcesBackdrop.classList.remove('active');
+        });
+
+        /* --- CONSTELLATION LORE DATABASE (88 Constellations parsed from your DOCX!) --- */
         const LORE_DATA = {
-            'Ori': { name: 'Orion', story: 'The mighty hunter of Greek myth. In legend, he boasted he could hunt down any beast, which angered Gaia, who sent a giant scorpion to defeat him. Notice the brilliant contrast between the red supergiant Betelgeuse at his shoulder and the blue supergiant Rigel at his foot. The three prominent stars form his famous belt.' },
-            'UMa': { name: 'Ursa Major', story: 'The Great Bear. In Greek mythology, it represents Callisto, a beautiful nymph turned into a bear by a jealous Hera. It contains the famous Big Dipper asterism, which has been used for navigation across centuries to locate the North Star.' },
-            'Cru': { name: 'Crux', story: 'The Southern Cross. Though the smallest of all 88 modern constellations, it is one of the most distinctive and culturally significant in the Southern Hemisphere, serving as a primary navigational tool for sailors exploring the southern oceans.' },
-            'Cen': { name: 'Centaurus', story: 'Represents the centaur, a half-human, half-horse creature from Greek mythology—most often associated with Chiron, the wise teacher of heroes like Hercules and Achilles. It is one of the largest constellations and contains Alpha Centauri, our closest star system.' },
-            'Sco': { name: 'Scorpius', story: 'The Scorpion. A magnificent constellation featuring the piercing red supergiant star Antares at its heart. Because we are using classic western shapes, you can see the grand claws stretching forward, which the IAU later officially cut off to form Libra.' },
-            'Cyg': { name: 'Cygnus', story: 'The Swan, soaring down the Milky Way. It contains the asterism known as the Northern Cross. Myth says it represents Zeus in disguise, or perhaps Orpheus transformed into a swan upon his death.' },
-            'Tau': { name: 'Taurus', story: 'The Bull. An ancient constellation containing the Pleiades (Seven Sisters) and Hyades star clusters, anchored by the angry orange eye of Aldebaran. It is often depicted charging at the nearby hunter, Orion.' },
-            'Peg': { name: 'Pegasus', story: 'The winged horse of Greek mythology that sprang from the blood of Medusa. It is dominated by the Great Square asterism, a prominent navigational marker in the autumn sky.' }
+            // Group 1: The Classical (Ptolemaic) Constellations
+            'And': { name: 'Andromeda', story: `The Chained Maiden. In Greek mythology, Andromeda was the daughter of Cassiopeia and Cepheus, the King and Queen of Aethiopia. Cassiopeia boasted that her daughter was more beautiful than the Nereids (sea nymphs), angering Poseidon. As punishment, Andromeda was chained to a rock as a sacrifice to the sea monster Cetus, before being rescued by the hero Perseus.` },
+            'Aqr': { name: 'Aquarius', story: `The Water Bearer. This constellation is universally associated with water and rain. In Greek myth, it often represents Ganymede, a beautiful Phrygian youth who was snatched up by Zeus (in the form of an eagle) to serve as the cup-bearer to the gods on Mount Olympus.` },
+            'Aql': { name: 'Aquila', story: `The Eagle. Aquila represents the eagle that belonged to Zeus. This eagle performed many tasks for the king of the gods, including retrieving his thunderbolts and abducting Ganymede to bring him to Mount Olympus.` },
+            'Ara': { name: 'Ara', story: `The Altar. In Greek mythology, Ara represents the altar where the Olympian gods swore an oath of allegiance before their epic battle against the Titans. It is sometimes also associated with an altar built by Noah after the great flood, or an altar of the centaur Chiron.` },
+            'Ari': { name: 'Aries', story: `The Ram. Aries represents the golden ram that rescued Phrixus and Helle from their stepmother, Ino. The ram’s golden fleece was later sought by Jason and the Argonauts in one of the most famous quests in Greek mythology.` },
+            'Aur': { name: 'Auriga', story: `The Charioteer. Auriga is often identified with Erichthonius, a legendary king of Athens who was raised by the goddess Athena. He was said to have invented the four-horse chariot (the quadriga) to compensate for his crippled legs.` },
+            'Boo': { name: 'Boötes', story: `The Herdsman. Boötes is usually depicted driving the bears (Ursa Major and Ursa Minor) around the North Pole. He is also sometimes associated with Arcas, the son of Zeus and Callisto, or Icarius, an Athenian who learned the secret of winemaking from Dionysus.` },
+            'Cnc': { name: 'Cancer', story: `The Crab. According to myth, the goddess Hera sent this giant crab to distract Heracles while he was fighting the multi-headed Hydra. Heracles quickly crushed the crab beneath his foot, but Hera rewarded its sacrifice by placing it in the stars.` },
+            'CMa': { name: 'Canis Major', story: `The Great Dog. Canis Major represents the larger of Orion's two hunting dogs. It contains Sirius, the brightest star in the night sky, which is often called the "Dog Star."` },
+            'CMi': { name: 'Canis Minor', story: `The Little Dog. This constellation represents the smaller of Orion’s two hunting dogs. It is famous for its bright star Procyon, which rises just before the Dog Star, Sirius.` },
+            'Cap': { name: 'Capricornus', story: `The Sea Goat. Often associated with the deity Pan, the god of the wild. During a battle with the monster Typhon, Pan tried to escape by turning himself into a fish and hiding in a river. However, he was only halfway submerged, resulting in a creature with the upper body of a goat and the lower body of a fish.` },
+            'Cas': { name: 'Cassiopeia', story: `The Seated Queen. Cassiopeia was the vain Queen of Aethiopia who boasted about her unparalleled beauty. As punishment for her arrogance, Poseidon placed her in the sky strapped to a chair, where she spends half the year upside down.` },
+            'Cen': { name: 'Centaurus', story: `The Centaur. This constellation represents Chiron, a wise and noble centaur who mentored many great Greek heroes, including Heracles, Achilles, and Jason. Unlike other centaurs who were wild and violent, Chiron was known for his immense knowledge of medicine and astronomy.` },
+            'Cep': { name: 'Cepheus', story: `The King. Cepheus was the King of Aethiopia, husband to Cassiopeia, and father of Andromeda. He was forced to chain his daughter to a rock to appease the wrath of Poseidon and the sea monster Cetus.` },
+            'Cet': { name: 'Cetus', story: `The Sea Monster. Cetus is the giant sea monster sent by Poseidon to ravage the coast of Aethiopia and devour the princess Andromeda. The beast was eventually slain by Perseus.` },
+            'CrA': { name: 'Corona Australis', story: `The Southern Crown. Its origins are ancient, sometimes seen as a wreath worn by the centaur Sagittarius, or as a crown placed in the sky by the god Dionysus.` },
+            'CrB': { name: 'Corona Borealis', story: `The Northern Crown. This constellation represents the beautiful, jeweled crown given by the god Dionysus to the princess Ariadne on their wedding day, after she was abandoned by the hero Theseus on the island of Naxos.` },
+            'Crv': { name: 'Corvus', story: `The Crow. Apollo sent a crow to fetch water in a cup (Crater), but the bird dawdled to wait for some figs to ripen. The crow returned with a water snake (Hydra) as an excuse for its delay. The angry god cast all three into the sky.` },
+            'Crt': { name: 'Crater', story: `The Cup. This is the cup that Apollo’s crow (Corvus) was supposed to fill with water. It was placed in the stars alongside the crow and the water snake.` },
+            'Cyg': { name: 'Cygnus', story: `The Swan. In myth, Zeus disguised himself as a magnificent swan to seduce Leda, the Queen of Sparta. The constellation is also famous for the "Northern Cross" asterism.` },
+            'Del': { name: 'Delphinus', story: `The Dolphin. This constellation represents the dolphin that Poseidon sent to find the sea nymph Amphitrite and persuade her to marry him. As a reward, Poseidon immortalized the dolphin among the stars.` },
+            'Dra': { name: 'Draco', story: `The Dragon. Draco represents Ladon, the terrifying hundred-headed dragon that guarded the golden apples in the garden of the Hesperides. The beast was ultimately slain by Heracles during his Eleventh Labor.` },
+            'Equ': { name: 'Equuleus', story: `The Little Horse. One of the smallest constellations, it is sometimes associated with Celeris, the brother of the winged horse Pegasus, or the horse struck from a rock by Poseidon's trident.` },
+            'Eri': { name: 'Eridanus', story: `The River. Eridanus represents the mythical river into which Phaethon, the son of the sun god Helios, fell after losing control of his father’s golden chariot.` },
+            'Gem': { name: 'Gemini', story: `The Twins. Gemini represents Castor and Pollux, twin brothers who shared a deep bond. Pollux was immortal, while Castor was mortal. When Castor died, Pollux begged Zeus to let him share his immortality with his brother, leading Zeus to place them both in the sky.` },
+            'Her': { name: 'Hercules', story: `The Hero. Representing the greatest of the Greek heroes, Heracles (Hercules to the Romans) is famous for his immense strength and the Twelve Labors he performed as penance. He is often depicted kneeling, victorious over the dragon Draco.` },
+            'Hya': { name: 'Hydra', story: `The Water Snake. This massive constellation represents the Lernaean Hydra, a terrifying multi-headed serpent that grew two heads for every one that was severed. It was ultimately slain by Heracles during his Second Labor.` },
+            'Leo': { name: 'Leo', story: `The Lion. Leo represents the Nemean Lion, a beast with impenetrable golden fur that terrorized the region of Nemea. Defeating this invincible lion was the very first of Heracles's Twelve Labors.` },
+            'Lep': { name: 'Lepus', story: `The Hare. Lepus is a hare placed in the stars just below the feet of Orion, forever being chased across the night sky by the hunter and his two dogs.` },
+            'Lib': { name: 'Libra', story: `The Scales. The only sign of the zodiac that represents an inanimate object rather than a living creature. It is often associated with the scales of justice held by Virgo, the goddess of justice.` },
+            'Lup': { name: 'Lupus', story: `The Wolf. Originally just an unnamed wild beast held by the centaur (Centaurus), it was later identified as a wolf during the Renaissance.` },
+            'Lyr': { name: 'Lyra', story: `The Lyre. Lyra represents the musical instrument invented by Hermes and given to Orpheus, the greatest mortal musician. Orpheus's music was so beautiful it could charm wild animals and even convince rocks and trees to move.` },
+            'Oph': { name: 'Ophiuchus', story: `The Serpent Bearer. Ophiuchus represents Asclepius, a legendary healer who became so skilled at medicine that he could bring the dead back to life. Fearing that humans would become immortal, Zeus struck him down with a thunderbolt but placed him in the stars to honor his skill.` },
+            'Ori': { name: 'Orion', story: `The mighty hunter of Greek myth. In legend, he boasted he could hunt down any beast, which angered Gaia, who sent a giant scorpion to defeat him. Notice the brilliant contrast between the red supergiant Betelgeuse at his shoulder and the blue supergiant Rigel at his foot. The three prominent stars form his famous belt.` },
+            'Peg': { name: 'Pegasus', story: `The Winged Horse. Pegasus was the majestic winged horse that sprang from the blood of the Gorgon Medusa when she was slain by Perseus. He was later tamed by the hero Bellerophon.` },
+            'Per': { name: 'Perseus', story: `The Hero. Perseus is celebrated for his daring quests, most notably slaying the snake-haired Gorgon Medusa and using her severed head to turn the sea monster Cetus to stone, thereby rescuing Princess Andromeda.` },
+            'Psc': { name: 'Pisces', story: `The Fishes. Pisces represents Aphrodite and her son Eros, who transformed themselves into two fish and tied their tails together with a cord to escape the monstrous giant Typhon.` },
+            'PsA': { name: 'Piscis Austrinus', story: `The Southern Fish. Often depicted drinking the water pouring from the jug of Aquarius. In ancient times, it was seen as the parent of the two smaller fishes in Pisces.` },
+            'Sge': { name: 'Sagitta', story: `The Arrow. Though small, this constellation has many myths. It is most commonly seen as the arrow used by Heracles to slay the eagle that tortured the titan Prometheus.` },
+            'Sgr': { name: 'Sagittarius', story: `The Archer. Sagittarius is depicted as a centaur holding a drawn bow, aiming his arrow at the heart of the scorpion (Scorpius). He is sometimes identified with Crotus, the inventor of archery.` },
+            'Sco': { name: 'Scorpius', story: `The Scorpion. Sent by the earth goddess Gaia to punish the arrogant hunter Orion. Because of their ancient rivalry, Scorpius and Orion are placed on opposite sides of the sky so they are never seen at the same time.` },
+            'Ser': { name: 'Serpens', story: `The Serpent. Serpens is unique because it is split into two non-contiguous halves: Serpens Caput (the head) and Serpens Cauda (the tail). It represents the giant snake held by the healer Ophiuchus.` },
+            'Tau': { name: 'Taurus', story: `The Bull. Taurus represents the magnificent white bull that Zeus transformed himself into to abduct the Phoenician princess Europa. It contains the famous Pleiades star cluster.` },
+            'Tri': { name: 'Triangulum', story: `The Triangle. An ancient constellation that simply represents its geometric shape. To the ancient Greeks, it resembled the capital letter Delta (Δ) or the delta of the Nile river.` },
+            'UMa': { name: 'Ursa Major', story: `The Great Bear. In Greek mythology, it represents Callisto, a beautiful nymph turned into a bear by a jealous Hera. It contains the famous Big Dipper asterism, which has been used for navigation across centuries to locate the North Star.` },
+            'UMi': { name: 'Ursa Minor', story: `The Lesser Bear. Contains Polaris, the North Star. It represents Arcas, the son of Callisto, who was also turned into a bear by Zeus to save him from a tragic hunting accident.` },
+            'Vir': { name: 'Virgo', story: `The Maiden. Often associated with Dike, the goddess of justice, or Demeter, the goddess of the harvest. Virgo is typically depicted holding a spike of wheat, represented by the bright star Spica.` },
+            
+            // The Argo Navis Split
+            'Car': { name: 'Carina', story: `The Keel of Argo Navis. Originally part of the massive constellation Argo Navis, which represented the famous ship used by Jason and the Argonauts in their quest for the Golden Fleece. It was divided into three smaller constellations to make it easier for astronomers to map.` },
+            'Pup': { name: 'Puppis', story: `The Poop Deck of Argo Navis. This constellation represents the stern or rear deck of the mythical ship Argo. It was carved out of the larger original constellation by the French astronomer Nicolas-Louis de Lacaille.` },
+            'Vel': { name: 'Vela', story: `The Sails of Argo Navis. Representing the sails of Jason's ship. Because it was once part of the larger Argo Navis, Vela does not have any stars designated Alpha or Beta—those designations belong to Carina.` },
+
+            // Group 2: The Modern Constellations
+            'Ant': { name: 'Antlia', story: `The Air Pump. Introduced by French astronomer Nicolas-Louis de Lacaille in the 1750s. It was named to honor the invention of the vacuum pump and the tools of the Scientific Revolution.` },
+            'Aps': { name: 'Apus', story: `The Bird of Paradise. Introduced by Dutch navigators in the late 16th century, this constellation was named to commemorate the exotic, beautiful birds explorers encountered while sailing the southern oceans.` },
+            'Cae': { name: 'Caelum', story: `The Chisel. Introduced by French astronomer Nicolas-Louis de Lacaille in the 1750s, this constellation represents an engraver's chisel.` },
+            'Cam': { name: 'Camelopardalis', story: `The Giraffe. Introduced in the 1600s, this faint constellation was created by European astronomers simply to fill in the empty gap between Cassiopeia and Ursa Major.` },
+            'CVn': { name: 'Canes Venatici', story: `The Hunting Dogs. Created by Johannes Hevelius in the 17th century, it represents the two hunting dogs, Asterion and Chara, being led by Boötes the Herdsman.` },
+            'Cha': { name: 'Chamaeleon', story: `The Chameleon. Introduced by Dutch navigators in the late 16th century, it represents the color-changing lizard encountered by explorers in the southern hemisphere.` },
+            'Cir': { name: 'Circinus', story: `The Compasses. Introduced by Nicolas-Louis de Lacaille in the 1750s, it represents the drafting compass used by mathematicians and navigators.` },
+            'Col': { name: 'Columba', story: `The Dove. Created by Petrus Plancius in the late 1500s. It is often said to represent the dove released by Noah from his ark.` },
+            'Com': { name: 'Coma Berenices', story: `Berenice's Hair. The only constellation named after a real historical figure. It represents the hair of Queen Berenice II of Egypt, who sacrificed her beautiful locks to the goddess Aphrodite for her husband's safe return from war.` },
+            'Cru': { name: 'Crux', story: `The Southern Cross. Though it is the smallest of all 88 constellations, it is the most famous in the Southern Hemisphere. Sailors have used its bright stars for centuries to find true south.` },
+            'Dor': { name: 'Dorado', story: `The Dolphinfish. Introduced by Dutch navigators in the late 16th century, representing a mahi-mahi or dolphinfish.` },
+            'For': { name: 'Fornax', story: `The Furnace. Introduced by Nicolas-Louis de Lacaille in the 1750s, originally named Fornax Chemica to honor the chemical furnaces used in laboratory experiments.` },
+            'Gru': { name: 'Grus', story: `The Crane. Introduced by Dutch navigators in the late 16th century, representing the exotic long-necked bird.` },
+            'Hor': { name: 'Horologium', story: `The Pendulum Clock. Introduced by Nicolas-Louis de Lacaille in the 1750s, named to honor the invention of the pendulum clock by Christiaan Huygens.` },
+            'Hyi': { name: 'Hydrus', story: `The Lesser Water Snake. Introduced by Dutch navigators in the late 16th century. It acts as the southern counterpart to the much larger northern constellation Hydra.` },
+            'Ind': { name: 'Indus', story: `The Indian. Introduced by Dutch navigators in the late 16th century. It was created to represent the indigenous peoples encountered by European explorers in the Americas or Asia.` },
+            'Lac': { name: 'Lacerta', story: `The Lizard. Introduced by Johannes Hevelius in the 1600s, this faint constellation was created simply to fill in an empty patch of sky between Cygnus and Andromeda.` },
+            'LMi': { name: 'Leo Minor', story: `The Lesser Lion. Introduced by Johannes Hevelius in 1687 as a small space-filler between the larger constellations of Leo and Ursa Major.` },
+            'Lyn': { name: 'Lynx', story: `The Lynx. Created by Johannes Hevelius in the 17th century. He named it the Lynx because the stars were so incredibly faint that you would need the sharp eyes of a lynx to actually see it.` },
+            'Men': { name: 'Mensa', story: `The Table Mountain. Introduced by Nicolas-Louis de Lacaille. It is the only constellation named after a specific geographical feature on Earth: Table Mountain in South Africa, where Lacaille made his observations.` },
+            'Mic': { name: 'Microscopium', story: `The Microscope. Introduced by Nicolas-Louis de Lacaille in the 1750s to honor the early microscopes that revolutionized biology.` },
+            'Mon': { name: 'Monoceros', story: `The Unicorn. Created by Petrus Plancius in the early 1600s to fill the large, dark gap of sky between the two hunting dogs, Canis Major and Canis Minor.` },
+            'Mus': { name: 'Musca', story: `The Fly. Introduced by Dutch navigators in the late 16th century. It is located just below the Southern Cross.` },
+            'Nor': { name: 'Norma', story: `The Level. Introduced by Nicolas-Louis de Lacaille in the 1750s, representing a carpenter's square and level.` },
+            'Oct': { name: 'Octans', story: `The Octant. Introduced by Nicolas-Louis de Lacaille in the 1750s to honor the navigational instrument. It is notable for containing the South Celestial Pole.` },
+            'Pav': { name: 'Pavo', story: `The Peacock. Introduced by Dutch navigators in the late 16th century, representing the magnificent, colorful bird.` },
+            'Phe': { name: 'Phoenix', story: `The Phoenix. Introduced by Dutch navigators in the late 16th century, representing the mythical bird of fire that is continually reborn from its own ashes.` },
+            'Pic': { name: 'Pictor', story: `The Painter's Easel. Introduced by Nicolas-Louis de Lacaille in the 1750s. It represents an easel with a painter's palette.` },
+            'Pyx': { name: 'Pyxis', story: `The Mariner's Compass. Introduced by Nicolas-Louis de Lacaille in the 1750s. While located near the Argo Navis ship, it represents a modern magnetic compass.` },
+            'Ret': { name: 'Reticulum', story: `The Reticle. Introduced by Nicolas-Louis de Lacaille in the 1750s, representing the crosshairs in the eyepiece of an astronomical telescope.` },
+            'Scl': { name: 'Sculptor', story: `The Sculptor. Introduced by Nicolas-Louis de Lacaille in the 1750s, originally named the Sculptor's Studio.` },
+            'Sct': { name: 'Scutum', story: `The Shield. Created in 1684 by Johannes Hevelius. It was named Scutum Sobiescianum (Shield of Sobieski) to honor the Polish King John III Sobieski after his victory at the Battle of Vienna.` },
+            'Sex': { name: 'Sextans', story: `The Sextant. Introduced by Johannes Hevelius in 1687 to honor the astronomical sextant he used for his observations, which was tragically destroyed in a fire.` },
+            'Tel': { name: 'Telescopium', story: `The Telescope. Introduced by Nicolas-Louis de Lacaille in the 1750s to honor the refractor telescopes that made his observations of the southern sky possible.` },
+            'TrA': { name: 'Triangulum Australe', story: `The Southern Triangle. First depicted in the late 1500s. It is the southern counterpart to the northern constellation of Triangulum.` },
+            'Tuc': { name: 'Tucana', story: `Sadly there is no mythology surrounding this constellation. Tucana is named after the South American toucan bird. It was first recorded by Petrus Plancius based on the observations of Dutch expeditionists Pieter Dirkszoon Keyser and Frederick de Houtman.` },
+            'Vol': { name: 'Volans', story: `Sadly there is no mythology surrounding this constellation. Instead it was introduced in the late 1500s by Dutch navigators to represent the flying fish they saw leaping from the waters during their voyages.` },
+            'Vul': { name: 'Vulpecula', story: `The Fox. Created by Johannes Hevelius in the 17th century. He originally envisioned it as a fox carrying a goose in its jaws, positioned near the eagle (Aquila) and the vulture/lyre (Lyra).` }
         };
 
         const IAU_NAMES = {
@@ -320,14 +628,13 @@
             if (LORE_DATA[id]) return LORE_DATA[id];
             return {
                 name: IAU_NAMES[id] || id,
-                story: `A recognized constellation of the celestial sphere. Its official asterisms and bounds have been observed by astronomers throughout history. While it may lack the dramatic mythology of the zodiac, it remains a beautiful fixture of the night sky.`
+                story: `A recognized constellation of the celestial sphere. Its official asterisms and bounds have been observed by astronomers throughout history.`
             };
         }
 
         /* --- THREE.JS SETUP --- */
         const container = document.getElementById('sky-canvas');
         const scene = new THREE.Scene();
-        // Update fog to pitch black to match the new background
         scene.fog = new THREE.FogExp2(0x000000, 0.0006); 
 
         const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 3000);
@@ -338,7 +645,7 @@
 
         const SPHERE_RADIUS = 800; 
         const interactableObjects = [];
-        const artworks = []; // Array to store our glowing illustrations
+        const artworks = []; 
         
         /* --- CAMERA CONTROLS --- */
         let lon = 250, lat = -25;
@@ -431,13 +738,13 @@
 
         function bvToColor(bv) {
             let r=1.0, g=1.0, b=1.0;
-            if (bv < -0.4) { r=0.6; g=0.7; b=1.0; } // O-Class
-            else if (bv < 0.0) { r=0.75; g=0.85; b=1.0; } // B-Class
-            else if (bv < 0.3) { r=0.9; g=0.95; b=1.0; } // A-Class
-            else if (bv < 0.58) { r=1.0; g=1.0; b=0.95; } // F-Class
-            else if (bv < 0.81) { r=1.0; g=0.95; b=0.8; } // G-Class
-            else if (bv < 1.4) { r=1.0; g=0.7; b=0.5; } // K-Class
-            else { r=1.0; g=0.5; b=0.4; } // M-Class
+            if (bv < -0.4) { r=0.6; g=0.7; b=1.0; } 
+            else if (bv < 0.0) { r=0.75; g=0.85; b=1.0; } 
+            else if (bv < 0.3) { r=0.9; g=0.95; b=1.0; } 
+            else if (bv < 0.58) { r=1.0; g=1.0; b=0.95; } 
+            else if (bv < 0.81) { r=1.0; g=0.95; b=0.8; } 
+            else if (bv < 1.4) { r=1.0; g=0.7; b=0.5; } 
+            else { r=1.0; g=0.5; b=0.4; } 
             return new THREE.Color(r, g, b);
         }
 
@@ -460,12 +767,10 @@
         /* --- DATA FETCHING & UNIVERSE BUILDING --- */
         async function buildUniverse() {
             try {
-                // Fetch the deeper star catalog so we have all the required anchor stars
                 const starsRes = await fetch('https://cdn.jsdelivr.net/npm/d3-celestial@0.7.32/data/stars.8.json');
                 if (!starsRes.ok) throw new Error("Could not fetch datasets.");
                 const starsData = await starsRes.json();
                 
-                // Smart fetch: Try loading local index.json for artwork. Fall back to generic lines if not found.
                 let indexData = null;
                 let linesData = null;
                 try {
@@ -473,7 +778,7 @@
                     if (indexRes.ok) indexData = await indexRes.json();
                     else throw new Error("Local JSON not found");
                 } catch (e) {
-                    console.log("Local index.json not found (Preview Mode). Falling back to generic lines.");
+                    console.log("Local index.json not found. Falling back to generic lines.");
                     const linesRes = await fetch('https://cdn.jsdelivr.net/npm/d3-celestial@0.7.32/data/constellations.lines.json');
                     linesData = await linesRes.json();
                 }
@@ -486,13 +791,11 @@
                     const ra = Math.round(f.geometry.coordinates[0]);
                     const dec = Math.round(f.geometry.coordinates[1]);
                     
-                    // Coordinates for standard lines
                     starMap.set(`${ra}_${dec}`, { 
                         mag: f.properties.mag !== undefined ? f.properties.mag : 5.0, 
                         bv: f.properties.bv || 0.5
                     });
                     
-                    // Exact Hipparcos ID for image anchors
                     if (f.id) {
                         starMap.set(f.id, {
                             ra: f.geometry.coordinates[0],
@@ -507,7 +810,6 @@
                     return starMap.get(`${Math.round(ra)}_${Math.round(dec)}`) || { mag: 4.0, bv: 0.5 };
                 }
 
-                // 1. Background Stars
                 const bgStarGeo = new THREE.BufferGeometry();
                 const bgStarPos = [], bgStarColors = [], bgStarSizes = [];
                 
@@ -526,7 +828,6 @@
                 bgStarGeo.setAttribute('size', new THREE.Float32BufferAttribute(bgStarSizes, 1));
                 scene.add(new THREE.Points(bgStarGeo, createStarShaderMaterial(glowTexture, 0.8)));
 
-                // 2. Map Constellations, Lines, and Illustrations
                 if (indexData && indexData.constellations) {
                     indexData.constellations.forEach(con => {
                         const iau = con.iau || ""; 
@@ -574,7 +875,6 @@
                         starGeo.setAttribute('size', new THREE.Float32BufferAttribute(starSizes, 1));
                         group.add(new THREE.Points(starGeo, createStarShaderMaterial(glowTexture, 1.0)));
 
-                        // THE MAGIC: Affine Image Mapping for the local .webp files
                         if (con.image && con.image.anchors && con.image.anchors.length === 3) {
                             const w = con.image.size[0]; const h = con.image.size[1];
                             const a0 = con.image.anchors[0]; const a1 = con.image.anchors[1]; const a2 = con.image.anchors[2];
@@ -602,7 +902,6 @@
                                     const bl = O.clone(); const br = O.clone().add(U); 
                                     const tl = O.clone().add(V); const tr = O.clone().add(U).add(V); 
 
-                                    // Curve the flat image against the sphere wall slightly
                                     const R = SPHERE_RADIUS * 0.99;
                                     bl.normalize().multiplyScalar(R); br.normalize().multiplyScalar(R);
                                     tl.normalize().multiplyScalar(R); tr.normalize().multiplyScalar(R);
@@ -614,11 +913,9 @@
                                     imgGeom.setAttribute('uv', new THREE.BufferAttribute(new Float32Array([0,0, 1,0, 0,1, 1,1]), 2));
                                     imgGeom.setIndex([2, 0, 1, 2, 1, 3]); 
 
-                                    // Safely convert Stellarium's "illustrations/name.webp" to your local "images/name.webp"
                                     const imgPath = con.image.file.replace(/^illustrations\//, 'images/');
                                     const imgTex = textureLoader.load(imgPath);
                                     
-                                    // Additive blending makes the black background of the images completely transparent against the black sky!
                                     const imgMat = new THREE.MeshBasicMaterial({
                                         map: imgTex, transparent: true, opacity: 0.0,
                                         blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide
@@ -639,7 +936,6 @@
                         interactableObjects.push(lines); 
                     });
                 } else if (linesData) {
-                    // FALLBACK: If index.json isn't found locally, render the generic lines so it doesn't crash
                     linesData.features.forEach(feature => {
                         const id = feature.id; 
                         const rawLines = feature.geometry.coordinates; 
@@ -762,7 +1058,6 @@
                 raycaster.setFromCamera(mouse, camera);
                 const intersects = raycaster.intersectObjects(interactableObjects);
 
-                // Default state: all artworks fade out
                 artworks.forEach(art => art.userData.targetOpacity = 0.0);
 
                 if (hoveredObject && (!intersects.length || intersects[0].object !== hoveredObject)) {
@@ -777,7 +1072,6 @@
                     hoveredObject.material.color.setHex(0xeaddb5);
                     hoveredObject.material.opacity = 0.9;
                     
-                    // The Magic: Fade in the artwork when hovered!
                     if (hoveredObject.userData.artwork) {
                         hoveredObject.userData.artwork.userData.targetOpacity = 0.6;
                     }
@@ -790,7 +1084,6 @@
                 }
             }
 
-            // Smoothly animate the artwork opacities
             artworks.forEach(art => {
                 art.material.opacity += (art.userData.targetOpacity - art.material.opacity) * 0.1;
             });
